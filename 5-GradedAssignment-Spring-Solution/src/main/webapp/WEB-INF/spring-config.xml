@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context.xsd 
+	http://www.springframework.org/schema/mvc 
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans">
+
+	<context:component-scan
+		base-package="com.greatlearning.management" />
+
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		id="viewResolver">
+
+		<property
+			value="org.springframework.web.servlet.view.JstlView"
+			name="viewClass" />
+
+		<property value="/views/" name="prefix" />
+
+		<property value=".jsp" name="suffix" />
+
+	</bean>
+
+
+	<bean
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		id="dataSource">
+
+		<property value="com.mysql.jdbc.Driver"
+			name="driverClassName" />
+
+		<property
+			value="jdbc:mysql://localhost:3306/customer_database" name="url" />
+
+		<property value="root" name="username" />
+
+		<property value="458667Shubham@" name="password" />
+
+	</bean>
+
+
+	<bean
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
+		id="sessionFactory">
+
+		<property name="dataSource" ref="dataSource" />
+
+
+		<property name="annotatedClasses">
+
+
+			<list>
+
+				<value>com.greatlearning.management.entity.Customer</value>
+
+			</list>
+
+		</property>
+
+
+		<property name="hibernateProperties">
+
+
+			<props>
+
+				<prop key="hibernatedialect">org.hibernate.dialect.MySQL8Dialect</prop>
+
+				<prop key="hibernate.show_sql">true</prop>
+
+				<prop key="hibernate.hdm2ddl.auto">update</prop>
+
+			</props>
+
+		</property>
+
+	</bean>
+
+
+	<bean
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+		id="hibernateTransactionManager">
+
+		<property ref="sessionFactory" name="sessionFactory" />
+
+	</bean>
+
+</beans>
